@@ -267,9 +267,12 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState('');
 
+    // API Base URL
+    const API_URL = import.meta.env.VITE_API_URL || '';
+
     // Carregar presets ao montar o componente
     React.useEffect(() => {
-        fetch('/api/presets')
+        fetch(`${API_URL}/api/presets`)
             .then(res => res.json())
             .then(data => {
                 setPresets(data.presets);
@@ -315,7 +318,7 @@ function App() {
                 formData.append('images', file);
             });
 
-            const uploadResponse = await fetch('/api/upload', {
+            const uploadResponse = await fetch(`${API_URL}/api/upload`, {
                 method: 'POST',
                 body: formData
             });
@@ -330,7 +333,7 @@ function App() {
             setLoadingMessage('Processando imagens...');
 
             // 2. Processar as imagens
-            const processResponse = await fetch('/api/process', {
+            const processResponse = await fetch(`${API_URL}/api/process`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
